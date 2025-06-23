@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ptrosand/src/features/pyrosand/presentation/pyrosand_view.dart';
 
 class IntroView extends StatelessWidget {
   const IntroView({super.key});
   
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
@@ -33,7 +34,7 @@ class IntroView extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const NextView()),
+                    MaterialPageRoute(builder: (context) => const PyrosandView()),
                   );
                 }, 
                 child: const Text('Get Started')
