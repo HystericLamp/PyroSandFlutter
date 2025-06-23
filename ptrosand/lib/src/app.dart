@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Playground',
+      title: 'PyroSandFlutter',
       theme: AppTheme.lightTheme,
       initialRoute: AppRouter.initialRoute,
       routes: AppRouter.routes,
