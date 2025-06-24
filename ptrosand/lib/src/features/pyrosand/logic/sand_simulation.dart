@@ -29,7 +29,7 @@ class SandSimulation {
 
   void _updateSand(int x, int y) {
     if (_canMoveTo(x, y + 1)) {
-      _moveCell(x, y, x + 1, y);
+      _moveCell(x, y, x, y + 1);
     } else if (_canMoveTo(x - 1, y + 1)) {
       _moveCell(x, y, x - 1, y + 1);
     } else if (_canMoveTo(x + 1, y + 1)) {
@@ -50,5 +50,26 @@ class SandSimulation {
     if (x >= 0 && x < width && y >= 0 && y < height) {
       grid[y][x] = cell;
     }
+  }
+
+  String gridToString() {
+    final buffer = StringBuffer();
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        final cell = grid[y][x];
+        switch (cell.type) {
+          case MaterialType.sand:
+            buffer.write('S');
+            break;
+          case MaterialType.empty:
+            buffer.write('.');
+            break;
+          default:
+            buffer.write('?'); // In case you add other materials later
+        }
+      }
+      buffer.writeln();
+    }
+    return buffer.toString();
   }
 }
