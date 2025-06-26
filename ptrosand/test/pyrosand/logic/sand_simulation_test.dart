@@ -43,5 +43,19 @@ void main() {
       // Should not move cuz there is sand below it
       expect(sim.grid[3][2].type, MaterialType.sand);
     });
+
+    test('Sand slides diagonally', () {
+      // Sand block we want to test (above)
+      sim.setCell(2, 3, SandMaterial(MaterialType.sand, const Color(0xFFFFFF00)));
+
+      // Sand below it (bottom)
+      sim.setCell(2, 4, SandMaterial(MaterialType.sand, const Color(0xFFFFFF00)));
+
+      sim.update();
+
+      // Should move diagonally
+      expect(sim.grid[3][2].type, MaterialType.empty);
+      expect(sim.grid[4][1].type, MaterialType.sand);
+    });
   });
 }

@@ -52,6 +52,7 @@ class SandSimulation {
     }
   }
 
+  /// For use in test debugging
   String gridToString() {
     final buffer = StringBuffer();
     for (var y = 0; y < height; y++) {
