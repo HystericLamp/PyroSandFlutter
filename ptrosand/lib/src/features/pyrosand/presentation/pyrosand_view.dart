@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide MaterialType;
 import 'package:flutter/scheduler.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 import 'package:ptrosand/src/features/pyrosand/painters/sand_painter.dart';
 
 class PyrosandView extends StatefulWidget {

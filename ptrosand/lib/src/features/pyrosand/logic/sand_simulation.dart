@@ -1,4 +1,5 @@
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
 class SandSimulation {
   final int width;

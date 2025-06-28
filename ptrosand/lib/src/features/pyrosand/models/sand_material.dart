@@ -1,11 +1,5 @@
-import 'package:flutter/material.dart';
-
-enum MaterialType {
-  empty,
-  sand,
-  water,
-  fire
-}
+import 'package:flutter/material.dart' hide MaterialType;
+import 'material_type.dart';
 
 class SandMaterial {
   MaterialType type;

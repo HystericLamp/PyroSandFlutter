@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide MaterialType;
-import '../models/sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
 class SandPainter extends CustomPainter {
   final List<List<SandMaterial>> grid;
