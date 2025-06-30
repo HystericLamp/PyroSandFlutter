@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
 void main() {
   group('SandSimulation', () {
