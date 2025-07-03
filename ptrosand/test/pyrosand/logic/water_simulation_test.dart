@@ -22,7 +22,7 @@ void main() {
     });
 
     test('Water Falls Straight Down', () {
-      sim.setCell(2, 2, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(2, 2, SandMaterial.water());
       sim.update();
       expect(sim.grid[3][2].type, MaterialType.water);
       expect(sim.grid[2][2].type, MaterialType.empty);
@@ -30,14 +30,14 @@ void main() {
 
     test('Sand Rests on Other Sand', () {
       // Water block we want to test (above)
-      sim.setCell(2, 3, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(2, 3, SandMaterial.water());
 
       // Water below it (bottom)
-      sim.setCell(2, 4, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(2, 4, SandMaterial.water());
       
       // Block diagonal movement
-      sim.setCell(1, 4, SandMaterial(MaterialType.water, MaterialType.water.color));
-      sim.setCell(3, 4, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(1, 4, SandMaterial.water());
+      sim.setCell(3, 4, SandMaterial.water());
 
       sim.update();
 
@@ -47,10 +47,10 @@ void main() {
 
     test('Sand slides diagonally', () {
       // Water block we want to test (above)
-      sim.setCell(2, 3, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(2, 3, SandMaterial.water());
 
       // Sand below it (bottom)
-      sim.setCell(2, 4, SandMaterial(MaterialType.water, MaterialType.water.color));
+      sim.setCell(2, 4, SandMaterial.water());
 
       sim.update();
 

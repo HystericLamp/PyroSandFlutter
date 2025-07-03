@@ -35,6 +35,19 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
     _ticker.dispose();
     super.dispose();
   }
+
+  SandMaterial _createMaterial(MaterialType type) {
+    switch (type) {
+      case MaterialType.sand:
+        return SandMaterial.sand();
+      case MaterialType.water:
+        return SandMaterial.water();
+      case MaterialType.fire:
+        return SandMaterial.fire();
+      case MaterialType.empty:
+        return SandMaterial.empty();
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -47,14 +60,11 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
               final localPosition = box.globalToLocal(details.globalPosition);
               final dx = localPosition.dx ~/ (box.size.width / sim.width);
               final dy = localPosition.dy ~/ (box.size.height / sim.height);
-              sim.setCell(
-                dx, 
-                dy, 
-                SandMaterial(
-                  _selectedMaterial,
-                  _selectedMaterial.color
-                )
-              );
+              
+              if (dx >= 0 && dx < sim.width && dy >= 0 && dy < sim.height) {
+                final newMaterial = _createMaterial(_selectedMaterial);
+                sim.setCell(dx, dy, newMaterial);
+              }
             },
             child: CustomPaint(
               painter: SandPainter(sim.grid),
