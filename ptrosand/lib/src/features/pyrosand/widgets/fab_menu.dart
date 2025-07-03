@@ -48,7 +48,7 @@ class _FabMenuState extends State<FabMenu> {
               isExpanded = !isExpanded;
             });
           },
-          child: Icon(isExpanded ? Icons.close : Icons.palette),
+          child: Icon(isExpanded ? Icons.close : widget.selectedMaterial.icon),
         ),
       ],
     );
