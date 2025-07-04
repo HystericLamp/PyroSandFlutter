@@ -20,17 +20,23 @@ class SandSimulation {
   /// Function that updates the grid and runs the simulation
   /// 
   void update() {
-    for (int y = (height - 1); y >= 0; y--) {
+    final updatedCells = <String>{};
+
+    for (int y = height-1; y >= 0; y--) {
       for (int x = 0; x < width; x++) {
+        final key = '$x:$y';
+        if (updatedCells.contains(key)) continue;
+
         final cell = grid[y][x];
 
         switch (cell.type) {
           case MaterialType.sand:
           case MaterialType.water:
             _updateMaterialFall(x, y);
+            updatedCells.add(key);
             break;
           case MaterialType.fire:
-            _updateFire(x, y);
+            _updateFire(x, y, updatedCells);
             break;
           case MaterialType.empty:
             // Skip
@@ -59,18 +65,36 @@ class SandSimulation {
   // _fallStraightThenDiagonal(x, y);
   // _fallStraightThenSpread(x, y);
 
-  void _updateFire(int x, int y) {
-    final cell = grid[y][x];
+  ///
+  /// Logic to how fire moves on the grid
+  /// 
+  void _updateFire(int x, int y, Set<String> updatedCells) {
+    SandMaterial cell = grid[y][x];
+
+    if (cell.justSpawned) {
+      grid[y][x] = cell.clearSpawnFlag();
+      updatedCells.add('$x:$y');
+      return;
+    }
+
+    cell = cell.tick();
 
     if (_canMoveTo(x, y-1)) {
-      _moveCell(x, y, x, y-1);
+      grid[y-1][x] = cell;
+      grid[y][x] = SandMaterial.empty();
+      updatedCells.add('$x:${y-1}');
     } else if (_canMoveTo(x-1, y-1)) {
-      _moveCell(x, y, x-1, y-1);
+      grid[y-1][x-1] = cell;
+      grid[y][x] = SandMaterial.empty();
+      updatedCells.add('${x-1}:${y-1}');
     } else if (_canMoveTo(x+1, y-1)) {
-      _moveCell(x, y, x+1, y-1);
+      grid[y-1][x+1] = cell;
+      grid[y][x] = SandMaterial.empty();
+      updatedCells.add('${x + 1}:${y - 1}');
     } else {
-      final updatedCell = cell.decrementLifespan();
-      grid[y][x] = updatedCell;
+      // Stay in place but apply ticked version
+      grid[y][x] = cell;
+      updatedCells.add('$x:$y');
     }
   }
 
@@ -85,7 +109,10 @@ class SandSimulation {
   /// Moves material cell to (x, y) coordinates
   /// 
   void _moveCell(int fromX, int fromY, int toX, int toY) {
-    grid[toY][toX] = grid[fromY][fromX];
+    final movedCell = grid[fromY][fromX];
+    final updatedCell = movedCell.clearSpawnFlag();
+
+    grid[toY][toX] = updatedCell;
     grid[fromY][fromX] = SandMaterial.empty();
   }
 
@@ -114,8 +141,6 @@ class SandSimulation {
           case MaterialType.empty:
             buffer.write('.');
             break;
-          default:
-            buffer.write('?');
         }
       }
       buffer.writeln();
