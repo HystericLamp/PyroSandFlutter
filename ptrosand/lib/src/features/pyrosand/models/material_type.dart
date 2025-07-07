@@ -4,7 +4,9 @@ enum MaterialType {
   empty,
   sand,
   water,
-  fire
+  fire,
+  wood,
+  steam
 }
 
 extension MaterialTypeProperties on MaterialType {
@@ -18,6 +20,10 @@ extension MaterialTypeProperties on MaterialType {
         return Colors.lightBlue;
       case MaterialType.fire:
         return Colors.deepOrange;
+      case MaterialType.wood:
+        return Colors.brown;
+      case MaterialType.steam:
+        return Colors.grey[300]!;
     }
   }
 
@@ -31,6 +37,10 @@ extension MaterialTypeProperties on MaterialType {
         return Icons.water;
       case MaterialType.fire:
         return Icons.fireplace;
+      case MaterialType.wood:
+        return Icons.crop_square;
+      case MaterialType.steam:
+        return Icons.cloud;
     }
   }
 
@@ -44,6 +54,10 @@ extension MaterialTypeProperties on MaterialType {
         return 'Water';
       case MaterialType.fire:
         return 'Fire';
+      case MaterialType.wood:
+        return 'Wood';
+      case MaterialType.steam:
+        return 'Steam';
     }
   }
 }

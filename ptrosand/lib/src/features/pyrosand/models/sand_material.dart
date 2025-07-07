@@ -58,7 +58,23 @@ class SandMaterial {
       type: MaterialType.fire,
       lifespan: lifespan,
       expires: true,
-      justSpawned: true,
+      justSpawned: true
+    );
+  }
+
+  factory SandMaterial.wood() {
+    return const SandMaterial._(
+      type: MaterialType.wood,
+      expires: false
+    );
+  }
+
+  factory SandMaterial.steam({int lifespan = 5}) {
+    return SandMaterial._(
+      type: MaterialType.steam,
+      lifespan: lifespan,
+      expires: true,
+      justSpawned: true
     );
   }
 

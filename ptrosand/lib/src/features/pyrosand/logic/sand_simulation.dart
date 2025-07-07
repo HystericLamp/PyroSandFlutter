@@ -36,8 +36,13 @@ class SandSimulation {
             updatedCells.add(key);
             break;
           case MaterialType.fire:
-            _updateFire(x, y, updatedCells);
+            _updateFloat(x, y, updatedCells);
             break;
+          case MaterialType.wood:
+            // Stay in place
+            break;
+          case MaterialType.steam:
+            _updateFloat(x, y, updatedCells);
           case MaterialType.empty:
             // Skip
             break;
@@ -66,9 +71,9 @@ class SandSimulation {
   // _fallStraightThenSpread(x, y);
 
   ///
-  /// Logic to how fire moves on the grid
+  /// Logic to how materials "float" up on the grid
   /// 
-  void _updateFire(int x, int y, Set<String> updatedCells) {
+  void _updateFloat(int x, int y, Set<String> updatedCells) {
     SandMaterial cell = grid[y][x];
 
     if (cell.justSpawned) {
@@ -92,7 +97,7 @@ class SandSimulation {
       grid[y][x] = SandMaterial.empty();
       updatedCells.add('${x + 1}:${y - 1}');
     } else {
-      // Stay in place but apply ticked version
+      // Stay in place, but apply ticked version
       grid[y][x] = cell;
       updatedCells.add('$x:$y');
     }
@@ -122,7 +127,9 @@ class SandSimulation {
     }
   }
 
+  /// 
   /// For use in test debugging
+  /// 
   String gridToString() {
     final buffer = StringBuffer();
     for (var y = 0; y < height; y++) {
@@ -137,6 +144,12 @@ class SandSimulation {
             break;
           case MaterialType.fire:
             buffer.write('F');
+            break;
+          case MaterialType.wood:
+            buffer.write('O');
+            break;
+          case MaterialType.steam:
+            buffer.write('E');
             break;
           case MaterialType.empty:
             buffer.write('.');

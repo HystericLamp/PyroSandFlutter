@@ -48,6 +48,10 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
         return SandMaterial.water();
       case MaterialType.fire:
         return SandMaterial.fire();
+      case MaterialType.wood:
+        return SandMaterial.wood();
+      case MaterialType.steam:
+        return SandMaterial.steam();
       case MaterialType.empty:
         return SandMaterial.empty();
     }
