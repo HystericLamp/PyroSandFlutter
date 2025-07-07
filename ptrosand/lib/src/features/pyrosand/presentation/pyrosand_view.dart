@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide MaterialType;
-import 'package:flutter/scheduler.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
@@ -15,24 +14,29 @@ class PyrosandView extends StatefulWidget {
 
 class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderStateMixin {
   late SandSimulation sim;
-  late Ticker _ticker;
+  late AnimationController _controller;
   MaterialType _selectedMaterial = MaterialType.sand;
 
   @override
   void initState() {
     super.initState();
     sim = SandSimulation(width: 100, height: 150);
-    _ticker = Ticker((_) {
+    
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(() {
       setState(() {
         sim.update();
       });
     });
-    _ticker.start();
+
+    _controller.repeat();
   }
 
   @override
   void dispose() {
-    _ticker.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -66,9 +70,14 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
                 sim.setCell(dx, dy, newMaterial);
               }
             },
-            child: CustomPaint(
-              painter: SandPainter(sim.grid),
-              size: Size.infinite,
+            child: AnimatedBuilder(
+              animation: _controller, 
+              builder: (context, _) {
+                return CustomPaint(
+                  painter: SandPainter(sim.grid),
+                  size: Size.infinite,
+                );
+              }
             ),
           ),
 

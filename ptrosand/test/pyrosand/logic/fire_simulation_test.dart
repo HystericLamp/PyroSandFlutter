@@ -13,13 +13,8 @@ void main() {
       // Step 1: Place fire at (2, 8)
       sim.setCell(x, y, SandMaterial.fire(lifespan: 5));
 
-      print('1=============================');
-      print(sim.gridToString());
-
       // Step 2: First tick — should NOT move yet (due to justSpawned)
       sim.update();
-      print('2=============================');
-      print(sim.gridToString());
 
       expect(sim.grid[y][x].type, MaterialType.fire);
       expect(sim.grid[y][x - 1].type, MaterialType.empty);
@@ -27,32 +22,24 @@ void main() {
 
       // Step 3: Second tick — should float up one cell to (2, 7)
       sim.update();
-      print('3=============================');
-      print(sim.gridToString());
       
       expect(sim.grid[y][x].type, MaterialType.empty);
-      expect(sim.grid[y - 1][x].type, MaterialType.fire); // failure here
+      expect(sim.grid[y - 1][x].type, MaterialType.fire);
 
       // Step 4: Third tick — should move to (2, 6)
       sim.update();
-      print('4=============================');
-      print(sim.gridToString());
 
       expect(sim.grid[y - 1][x].type, MaterialType.empty);
       expect(sim.grid[y - 2][x].type, MaterialType.fire);
 
       // Step 5: Fourth tick — should move to (2, 5)
       sim.update();
-      print('5=============================');
-      print(sim.gridToString());
 
       expect(sim.grid[y - 2][x].type, MaterialType.empty);
       expect(sim.grid[y - 3][x].type, MaterialType.fire);
 
       // Step 6: Fifth tick — lifespan exhausted, fire disappears
       sim.update();
-      print('6=============================');
-      print(sim.gridToString());
       
       expect(sim.grid[y - 3][x].type, MaterialType.empty);
     });
