@@ -93,6 +93,9 @@ class Grid {
           case MaterialType.wood:
             buffer.write('O');
             break;
+          case MaterialType.charredWood:
+            buffer.write('D');
+            break;
           case MaterialType.steam:
             buffer.write('E');
             break;

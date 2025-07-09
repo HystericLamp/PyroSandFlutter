@@ -6,6 +6,7 @@ enum MaterialType {
   water,
   fire,
   wood,
+  charredWood,
   steam
 }
 
@@ -22,6 +23,8 @@ extension MaterialTypeProperties on MaterialType {
         return Colors.deepOrange;
       case MaterialType.wood:
         return Colors.brown;
+      case MaterialType.charredWood:
+        return Colors.orange;
       case MaterialType.steam:
         return Colors.grey[300]!;
     }
@@ -39,6 +42,8 @@ extension MaterialTypeProperties on MaterialType {
         return Icons.fireplace;
       case MaterialType.wood:
         return Icons.crop_square;
+      case MaterialType.charredWood:
+        return Icons.crop_square_sharp;
       case MaterialType.steam:
         return Icons.cloud;
     }
@@ -56,8 +61,17 @@ extension MaterialTypeProperties on MaterialType {
         return 'Fire';
       case MaterialType.wood:
         return 'Wood';
+      case MaterialType.charredWood:
+        return 'Charred Wood';
       case MaterialType.steam:
         return 'Steam';
     }
   }
 }
+
+const List<MaterialType> fabMaterials = [
+  MaterialType.sand,
+  MaterialType.water,
+  MaterialType.fire,
+  MaterialType.wood
+];

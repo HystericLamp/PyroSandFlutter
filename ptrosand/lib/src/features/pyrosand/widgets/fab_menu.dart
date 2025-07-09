@@ -2,21 +2,22 @@ import 'package:flutter/material.dart' hide MaterialType;
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
 class FabMenu extends StatefulWidget {
-  final MaterialType selectedMaterial;
   final Function(MaterialType) onMaterialSelected;
 
-  const FabMenu({
-    Key? key,
-    required this.selectedMaterial,
-    required this.onMaterialSelected
-  }) : super(key: key);
+  const FabMenu({super.key, required this.onMaterialSelected});
   
   @override
   State<StatefulWidget> createState() => _FabMenuState();
 }
 
 class _FabMenuState extends State<FabMenu> {
-  bool isExpanded = false;
+  bool _isOpen = false;
+
+  void _toggleMenu() {
+    setState(() {
+      _isOpen = !_isOpen;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,31 +25,28 @@ class _FabMenuState extends State<FabMenu> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (isExpanded)
-          ...MaterialType.values.map((type) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: FloatingActionButton(
-              mini: true,
-              heroTag: 'fab_$type',
-              backgroundColor: type.color,
-              onPressed: () {
-                widget.onMaterialSelected(type);
-                setState(() {
-                  isExpanded = false;
-                });
-              },
-              child: Icon(type.icon, color: Colors.white),
-            ),
-          )),
+        if (_isOpen)
+          ...fabMaterials.map((material) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  widget.onMaterialSelected(material);
+                  _toggleMenu();
+                },
+                tooltip: material.name,
+                mini: true,
+                child: Icon(material.icon),
+              ),
+            );
+          }),
 
+        const SizedBox(height: 8),
+
+        // Main FAB toggle
         FloatingActionButton(
-          heroTag: 'main_fab',
-          onPressed: () {
-            setState(() {
-              isExpanded = !isExpanded;
-            });
-          },
-          child: Icon(isExpanded ? Icons.close : widget.selectedMaterial.icon),
+          onPressed: _toggleMenu,
+          child: Icon(_isOpen ? Icons.close : Icons.menu),
         ),
       ],
     );

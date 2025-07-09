@@ -52,6 +52,8 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
         return SandMaterial.fire();
       case MaterialType.wood:
         return SandMaterial.wood();
+      case MaterialType.charredWood:
+        return SandMaterial.charredWood();
       case MaterialType.steam:
         return SandMaterial.steam();
       case MaterialType.empty:
@@ -92,7 +94,6 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
             bottom: 16,
             right: 16,
             child: FabMenu(
-              selectedMaterial: _selectedMaterial, 
               onMaterialSelected: (material) {
                 setState(() {
                   _selectedMaterial = material;

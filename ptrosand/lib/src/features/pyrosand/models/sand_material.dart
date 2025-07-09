@@ -69,6 +69,13 @@ class SandMaterial {
     );
   }
 
+  factory SandMaterial.charredWood() {
+    return const SandMaterial._(
+      type: MaterialType.wood,
+      expires: false
+    );
+  }
+
   factory SandMaterial.steam({int lifespan = 5}) {
     return SandMaterial._(
       type: MaterialType.steam,
