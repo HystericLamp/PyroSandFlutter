@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart' hide MaterialType;
+import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
@@ -20,7 +21,8 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    sim = SandSimulation(width: 100, height: 150);
+    Grid grid = Grid(height: 100, width: 150);
+    sim = SandSimulation(grid: grid);
     
     _controller = AnimationController(
       vsync: this,
@@ -66,19 +68,19 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
             onPanUpdate: (details) {
               final box = context.findRenderObject() as RenderBox;
               final localPosition = box.globalToLocal(details.globalPosition);
-              final dx = localPosition.dx ~/ (box.size.width / sim.width);
-              final dy = localPosition.dy ~/ (box.size.height / sim.height);
+              final dx = localPosition.dx ~/ (box.size.width / sim.getGrid().width);
+              final dy = localPosition.dy ~/ (box.size.height / sim.getGrid().height);
               
-              if (dx >= 0 && dx < sim.width && dy >= 0 && dy < sim.height) {
+              if (dx >= 0 && dx < sim.getGrid().width && dy >= 0 && dy < sim.getGrid().height) {
                 final newMaterial = _createMaterial(_selectedMaterial);
-                sim.setCell(dx, dy, newMaterial);
+                sim.getGrid().setCell(dx, dy, newMaterial);
               }
             },
             child: AnimatedBuilder(
               animation: _controller, 
               builder: (context, _) {
                 return CustomPaint(
-                  painter: SandPainter(sim.grid),
+                  painter: SandPainter(sim.getGrid()),
                   size: Size.infinite,
                 );
               }
