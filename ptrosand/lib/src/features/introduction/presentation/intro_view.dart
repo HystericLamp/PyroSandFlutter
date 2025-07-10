@@ -14,7 +14,7 @@ class IntroView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Welcome to my App',
+                'Welcome to my PyroSand Imitation App',
                 style: TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold
@@ -23,7 +23,8 @@ class IntroView extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'This app will help you get things done efficiently and effectively.',
+                'This app is my attempt at re-building the PyroSand game, which was an old Game on the web that allows you to place \'sand\', watch it fall and interact with other \'sand\' material.'
+                ' Although this is a minor imitation, I was inspired with Flutter and wanted to use its capabilities for this game. Please enjoy!',
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.grey
