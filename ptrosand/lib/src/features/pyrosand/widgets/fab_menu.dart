@@ -12,11 +12,20 @@ class FabMenu extends StatefulWidget {
 
 class _FabMenuState extends State<FabMenu> {
   bool _isOpen = false;
+  MaterialType? _selectedMaterial;
 
   void _toggleMenu() {
     setState(() {
       _isOpen = !_isOpen;
     });
+  }
+
+  void _selectMaterial(MaterialType material) {
+    setState(() {
+      _selectedMaterial = material;
+      _isOpen = false;
+    });
+    widget.onMaterialSelected(material);
   }
 
   @override
@@ -30,10 +39,7 @@ class _FabMenuState extends State<FabMenu> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: FloatingActionButton(
-                onPressed: () {
-                  widget.onMaterialSelected(material);
-                  _toggleMenu();
-                },
+                onPressed: () => _selectMaterial(material),
                 tooltip: material.name,
                 mini: true,
                 child: Icon(material.icon),
@@ -46,7 +52,14 @@ class _FabMenuState extends State<FabMenu> {
         // Main FAB toggle
         FloatingActionButton(
           onPressed: _toggleMenu,
-          child: Icon(_isOpen ? Icons.close : Icons.menu),
+          tooltip: _isOpen
+                  ? 'Close menu'
+                  : (_selectedMaterial?.name ?? 'Open menu'),
+          child: Icon(
+            _isOpen 
+              ? Icons.close 
+              : (_selectedMaterial?.icon ?? Icons.menu),
+          ),
         ),
       ],
     );

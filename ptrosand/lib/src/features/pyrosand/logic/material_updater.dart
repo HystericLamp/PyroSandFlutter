@@ -55,4 +55,33 @@ class MaterialUpdater {
       updatedCells.add('$x:$y');
     }
   }
+
+  void updateFire(int x, int y, Set<String> updatedCells) {
+    SandMaterial cell = _grid.getCell(x, y).tick();
+
+    if (cell.justSpawned) {
+      cell = cell.clearSpawnFlag();
+      _grid.setCell(x, y, cell);
+      updatedCells.add('$x:$y');
+      return;
+    }
+
+    if (_grid.canMoveTo(x, y-1)) {
+      _grid.setCell(x, y-1, cell);
+      _grid.setCell(x, y, SandMaterial.empty());
+      updatedCells.add('$x:${y-1}');
+    } else if (_grid.canMoveTo(x-1, y-1)) {
+      _grid.setCell(x-1, y-1, cell);
+      _grid.setCell(x, y, SandMaterial.empty());
+      updatedCells.add('${x-1}:${y-1}');
+    } else if (_grid.canMoveTo(x+1, y-1)) {
+      _grid.setCell(x+1, y-1, cell);
+      _grid.setCell(x, y, SandMaterial.empty());
+      updatedCells.add('${x + 1}:${y - 1}');
+    } else {
+      // Stay in place, but apply ticked version
+      _grid.setCell(x, y, cell);
+      updatedCells.add('$x:$y');
+    }
+  }
 }
