@@ -29,3 +29,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_PYROSANDFLUTTER }}
           channelId: live
           projectId: pyrosandflutter
+          entryPoint: ptrosand
