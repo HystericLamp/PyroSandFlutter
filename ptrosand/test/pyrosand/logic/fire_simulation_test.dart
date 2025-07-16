@@ -45,5 +45,21 @@ void main() {
 
       expect(grid.getCell(x, y-3).type, MaterialType.empty);
     });
+
+    test('Fire burns adjacent flammable materials', () {
+      final grid = Grid(width: 5, height: 5);
+      final sim = SandSimulation(grid: grid);
+
+      grid.setCell(2, 2, SandMaterial.wood());
+      grid.setCell(2, 3, SandMaterial.fire(lifespan: 5));
+
+      // Tick 1 — fire just spawned
+      sim.update();
+      expect(grid.getCell(2, 2).type, MaterialType.wood, reason: 'Fire should not burn yet');
+
+      // Tick 2 — fire spreads to wood
+      sim.update();
+      expect(grid.getCell(2, 2).type, MaterialType.fire, reason: 'Wood should be ignited into fire');
+    });
   });
 }

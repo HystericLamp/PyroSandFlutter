@@ -35,7 +35,7 @@ class SandSimulation {
             updatedCells.add(key);
             break;
           case MaterialType.fire:
-            _materialUpdater.updateFloat(x, y, updatedCells);
+            _materialUpdater.updateFire(x, y, updatedCells);
             break;
           case MaterialType.wood:
             // Stay in place
