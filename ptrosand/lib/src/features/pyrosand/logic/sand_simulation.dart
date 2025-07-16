@@ -17,6 +17,7 @@ class SandSimulation {
 
   ///
   /// Function that updates the grid and runs the simulation
+  /// Each call of this method is 1 tick
   /// 
   void update() {
     final updatedCells = <String>{};

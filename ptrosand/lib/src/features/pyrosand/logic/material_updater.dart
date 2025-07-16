@@ -58,6 +58,10 @@ class MaterialUpdater {
     }
   }
 
+  ///
+  /// Logic to how Fire "float" up on the grid
+  /// Also handles how Fire burns nearby flammable materials
+  /// 
   void updateFire(int x, int y, Set<String> updatedCells) {
     SandMaterial cell = _grid.getCell(x, y);
 
