@@ -61,5 +61,31 @@ void main() {
       sim.update();
       expect(grid.getCell(2, 2).type, MaterialType.fire, reason: 'Wood should be ignited into fire');
     });
+
+    test('Fire burns water to steam', () {
+      final grid = Grid(width: 5, height: 5);
+      final sim = SandSimulation(grid: grid);
+
+      grid.setCell(2, 1, SandMaterial.water());
+      grid.setCell(2, 3, SandMaterial.fire(lifespan: 5));
+
+      // Tick 1 — fire just spawned
+      sim.update();
+      expect(grid.getCell(2, 2).type, MaterialType.water, reason: 'Fire should not burn yet');
+
+      // Tick 2 — fire evaporates water to steam
+      sim.update();
+
+      expect(grid.getCell(2, 2).type, MaterialType.empty, reason: 'Fire is extinguished');
+      expect(grid.getCell(2, 3).type, MaterialType.steam, reason: 'Water should be turned to steam');
+
+      // Tick 3 — steam still justSpawned, should stay
+      sim.update();
+      expect(grid.getCell(2, 3).type, MaterialType.steam);
+
+      // Tick 4 — steam floats up
+      sim.update();
+      expect(grid.getCell(2, 2).type, MaterialType.steam);
+    });
   });
 }

@@ -90,7 +90,7 @@ class MaterialUpdater {
         // Fire + Water = Steam
         if (neighbor.type == MaterialType.water) {
           _grid.setCell(nx, ny, SandMaterial.empty());
-          _grid.setCell(x, y, SandMaterial.steam());
+          _grid.setCell(x, y, SandMaterial.steam(lifespan: 5));
           updatedCells.add('$nx:$ny');
           updatedCells.add('$x:$y');
           return;

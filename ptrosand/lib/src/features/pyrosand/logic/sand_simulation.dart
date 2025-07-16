@@ -45,6 +45,7 @@ class SandSimulation {
             break;
           case MaterialType.steam:
             _materialUpdater.updateFloat(x, y, updatedCells);
+            break;
           case MaterialType.empty:
             // Skip
             break;
