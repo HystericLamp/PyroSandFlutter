@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
+import 'package:ptrosand/src/features/pyrosand/models/fire_sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
@@ -13,7 +14,7 @@ void main() {
       const y = 8;
 
       // Step 1: Place fire at (2, 8)
-      grid.setCell(x, y, SandMaterial.fire(lifespan: 5));
+      grid.setCell(x, y, FireSandMaterial.fire(lifespan: 5));
 
       // Step 2: First tick — should NOT move yet (due to justSpawned)
       sim.update();
@@ -51,7 +52,7 @@ void main() {
       final sim = SandSimulation(grid: grid);
 
       grid.setCell(2, 2, SandMaterial.wood());
-      grid.setCell(2, 3, SandMaterial.fire(lifespan: 5));
+      grid.setCell(2, 3, FireSandMaterial.fire(lifespan: 5));
 
       // Tick 1 — fire just spawned
       sim.update();
@@ -67,7 +68,7 @@ void main() {
       final sim = SandSimulation(grid: grid);
 
       grid.setCell(2, 1, SandMaterial.water());
-      grid.setCell(2, 3, SandMaterial.fire(lifespan: 5));
+      grid.setCell(2, 3, FireSandMaterial.fire(lifespan: 5));
 
       // Tick 1 — fire just spawned
       sim.update();

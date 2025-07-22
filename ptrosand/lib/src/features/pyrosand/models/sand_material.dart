@@ -7,7 +7,7 @@ class SandMaterial {
   final bool expires;
   final bool justSpawned;
 
-  const SandMaterial._({
+  const SandMaterial({
     required this.type,
     this.lifespan = 0,
     this.expires = false,
@@ -20,7 +20,7 @@ class SandMaterial {
     bool? expires,
     bool? justSpawned,
   }) {
-    return SandMaterial._(
+    return SandMaterial(
       type: type ?? this.type,
       lifespan: lifespan ?? this.lifespan,
       expires: expires ?? this.expires,
@@ -36,48 +36,32 @@ class SandMaterial {
   }
 
   factory SandMaterial.empty() {
-    return const SandMaterial._(type: MaterialType.empty);
+    return const SandMaterial(type: MaterialType.empty);
   }
 
   factory SandMaterial.sand() {
-    return const SandMaterial._(
+    return const SandMaterial(
       type: MaterialType.sand,
       expires: false,
     );
   }
 
   factory SandMaterial.water() {
-    return const SandMaterial._(
+    return const SandMaterial(
       type: MaterialType.water,
       expires: false,
     );
   }
 
-  factory SandMaterial.fire({int lifespan = 5}) {
-    return SandMaterial._(
-      type: MaterialType.fire,
-      lifespan: lifespan,
-      expires: true,
-      justSpawned: true
-    );
-  }
-
   factory SandMaterial.wood() {
-    return const SandMaterial._(
-      type: MaterialType.wood,
-      expires: false
-    );
-  }
-
-  factory SandMaterial.charredWood() {
-    return const SandMaterial._(
+    return const SandMaterial(
       type: MaterialType.wood,
       expires: false
     );
   }
 
   factory SandMaterial.steam({int lifespan = 5}) {
-    return SandMaterial._(
+    return SandMaterial(
       type: MaterialType.steam,
       lifespan: lifespan,
       expires: true,

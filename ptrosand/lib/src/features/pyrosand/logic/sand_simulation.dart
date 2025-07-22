@@ -41,9 +41,6 @@ class SandSimulation {
           case MaterialType.wood:
             // Stay in place
             break;
-          case MaterialType.charredWood:
-            // WIP
-            break;
           case MaterialType.steam:
             _materialUpdater.updateFloat(x, y, updatedCells);
             break;
