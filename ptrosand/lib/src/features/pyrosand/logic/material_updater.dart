@@ -33,6 +33,42 @@ class MaterialUpdater {
 
     if (_ifJustSpawned(cell, x, y, updatedCells)) return;
 
+    _floatUpwardMovement(cell, x, y, updatedCells);
+  }
+
+  ///
+  /// Logic to how Fire "float" up on the grid
+  /// Also handles how Fire burns nearby flammable materials
+  /// 
+  void updateFire(int x, int y, Set<String> updatedCells) {
+    SandMaterial cell = _grid.getCell(x, y);
+
+    if (_ifJustSpawned(cell, x, y, updatedCells)) return;
+    cell = _grid.getCell(x, y).tick();
+    _grid.setCell(x, y, cell);
+
+    if (!cell.justSpawned) {
+      if (FireBehavior.react(_grid, x, y, updatedCells) == true) return;
+
+      _floatUpwardMovement(cell, x, y, updatedCells);
+    }
+  }
+
+  ///
+  /// Checks to see if material justSpawned. If it did return true, else false.
+  /// 
+  bool _ifJustSpawned(SandMaterial cell, int x, int y, Set<String> updatedCells) {
+    if (cell.justSpawned) {
+      cell = cell.clearSpawnFlag();
+      _grid.setCell(x, y, cell);
+      updatedCells.add('$x:$y');
+      return true;
+    }
+    
+    return false;
+  }
+
+  void _floatUpwardMovement(SandMaterial cell, int x, int y, Set<String> updatedCells) {
     if (_grid.canMoveTo(x, y-1)) {
       _grid.setCell(x, y-1, cell);
       _grid.setCell(x, y, SandMaterial.empty());
@@ -50,54 +86,5 @@ class MaterialUpdater {
       _grid.setCell(x, y, cell);
       updatedCells.add('$x:$y');
     }
-  }
-
-  ///
-  /// Logic to how Fire "float" up on the grid
-  /// Also handles how Fire burns nearby flammable materials
-  /// 
-  void updateFire(int x, int y, Set<String> updatedCells) {
-    SandMaterial cell = _grid.getCell(x, y);
-
-    if (_ifJustSpawned(cell, x, y, updatedCells)) return;
-    cell = _grid.getCell(x, y).tick();
-    _grid.setCell(x, y, cell);
-
-    if (!cell.justSpawned) {
-      if(FireBehavior.react(_grid, x, y, updatedCells) == true) return;
-
-      // Float upward
-      if (_grid.canMoveTo(x, y-1)) {
-        _grid.setCell(x, y-1, cell);
-        _grid.setCell(x, y, SandMaterial.empty());
-        updatedCells.add('$x:${y-1}');
-      } else if (_grid.canMoveTo(x-1, y-1)) {
-        _grid.setCell(x-1, y-1, cell);
-        _grid.setCell(x, y, SandMaterial.empty());
-        updatedCells.add('${x-1}:${y-1}');
-      } else if (_grid.canMoveTo(x+1, y-1)) {
-        _grid.setCell(x+1, y-1, cell);
-        _grid.setCell(x, y, SandMaterial.empty());
-        updatedCells.add('${x + 1}:${y - 1}');
-      } else {
-        // Stay in place, but apply ticked version
-        _grid.setCell(x, y, cell);
-        updatedCells.add('$x:$y');
-      }
-    }
-  }
-
-  ///
-  /// Checks to see if material justSpawned. If it did return true, else false.
-  /// 
-  bool _ifJustSpawned(SandMaterial cell, int x, int y, Set<String> updatedCells) {
-    if (cell.justSpawned) {
-      cell = cell.clearSpawnFlag();
-      _grid.setCell(x, y, cell);
-      updatedCells.add('$x:$y');
-      return true;
-    }
-    
-    return false;
   }
 }
