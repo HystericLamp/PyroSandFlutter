@@ -73,7 +73,8 @@ class Grid {
   }
 
   /// 
-  /// For use in test debugging
+  /// Returns he grid represented as a String. Mainly used for debugging.
+  /// Sand = S, Water = W, Fire = F, Wood = O, Steam = E, Empty = .
   /// 
   String gridToString() {
     final buffer = StringBuffer();
