@@ -1,3 +1,4 @@
+import 'package:ptrosand/src/features/pyrosand/models/flammable_sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
 import 'package:ptrosand/src/features/pyrosand/models/fire_sand_material.dart';
@@ -6,7 +7,7 @@ import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 class FireBehavior {
 
   ///
-  /// Logic on Fire spreading to other flammable materials
+  /// Logic on Fire interaction with other materials
   /// 
   static bool react(Grid grid, int x, int y, Set<String> updatedCells) {
     bool fireExtinguished = false;
@@ -23,9 +24,8 @@ class FireBehavior {
         final neighbor = grid.getCell(nx, ny);
 
         // Wood burns into fire
-        if (neighbor.type == MaterialType.wood) {
-          grid.setCell(nx, ny, FireSandMaterial(lifespan: 8, burningWood: true));
-          updatedCells.add('$nx:$ny');
+        if (neighbor is FlammableSandMaterial) {
+          _materialBurn(grid, neighbor, nx, ny, updatedCells);
         }
 
         // Fire + Water = Steam
@@ -40,5 +40,28 @@ class FireBehavior {
     }
 
     return fireExtinguished;
+  }
+
+  static void _materialBurn(Grid grid, FlammableSandMaterial neighbor, int nx, int ny, Set<String> updatedCells) {
+    int newBurnTimer = neighbor.burnTimer - 1;
+
+    if (newBurnTimer <= 0) {
+      // Fully burns and turns into fire
+      grid.setCell(nx, ny, FireSandMaterial(lifespan: 8, burningWood: true));
+    } else {
+      // Update the flammable material with decreased burnTimer
+      grid.setCell(nx, ny, FlammableSandMaterial(
+        type: neighbor.type,
+        burnTimer: newBurnTimer,
+      ));
+
+      // Optional visual: emit fire above
+      if (grid.isWithinBounds(nx, ny - 1) &&
+          grid.getCell(nx, ny - 1)?.type == MaterialType.empty) {
+        grid.setCell(nx, ny - 1, FireSandMaterial(lifespan: 2));
+      }
+    }
+
+    updatedCells.add('$nx:$ny');
   }
 }

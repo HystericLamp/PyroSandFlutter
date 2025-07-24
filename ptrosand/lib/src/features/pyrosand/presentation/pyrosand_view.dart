@@ -2,6 +2,7 @@ import 'package:flutter/material.dart' hide MaterialType;
 import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/fire_sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/flammable_sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 import 'package:ptrosand/src/features/pyrosand/painters/sand_painter.dart';
@@ -50,9 +51,9 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
       case MaterialType.water:
         return SandMaterial.water();
       case MaterialType.fire:
-        return FireSandMaterial.fire();
+        return FireSandMaterial.fire(lifespan: 15);
       case MaterialType.wood:
-        return SandMaterial.wood();
+        return FlammableSandMaterial(type: MaterialType.wood, burnTimer: 40);
       case MaterialType.steam:
         return SandMaterial.steam();
       case MaterialType.empty:

@@ -68,6 +68,10 @@ class MaterialUpdater {
     return false;
   }
 
+  ///
+  /// Function that applies a "Floating upward" on the grid for a single piece of material.
+  /// This function applies a tick to the material if they have a lifespan.
+  /// 
   void _floatUpwardMovement(SandMaterial cell, int x, int y, Set<String> updatedCells) {
     if (_grid.canMoveTo(x, y-1)) {
       _grid.setCell(x, y-1, cell);

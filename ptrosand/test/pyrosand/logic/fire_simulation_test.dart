@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ptrosand/src/features/pyrosand/logic/fire_behavior.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/sand_simulation.dart';
 import 'package:ptrosand/src/features/pyrosand/models/fire_sand_material.dart';
+import 'package:ptrosand/src/features/pyrosand/models/flammable_sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 
@@ -47,20 +49,21 @@ void main() {
       expect(grid.getCell(x, y-3).type, MaterialType.empty);
     });
 
-    test('Fire burns adjacent flammable materials', () {
+    test('Wood gradually burns when adjacent to fire', () {
       final grid = Grid(width: 5, height: 5);
-      final sim = SandSimulation(grid: grid);
 
-      grid.setCell(2, 2, SandMaterial.wood());
-      grid.setCell(2, 3, FireSandMaterial.fire(lifespan: 5));
+      grid.setCell(2, 2, FlammableSandMaterial(type: MaterialType.wood));
+      grid.setCell(1, 2, FireSandMaterial(lifespan: 8));
 
-      // Tick 1 — fire just spawned
-      sim.update();
-      expect(grid.getCell(2, 2).type, MaterialType.wood, reason: 'Fire should not burn yet');
+      Set<String> updatedCells = {};
 
-      // Tick 2 — fire spreads to wood
-      sim.update();
-      expect(grid.getCell(2, 2).type, MaterialType.fire, reason: 'Wood should be ignited into fire');
+      // Run fire react for a few ticks
+      for (int i = 0; i < 6; i++) {
+        FireBehavior.react(grid, 1, 2, updatedCells);
+      }
+
+      final cell = grid.getCell(2, 2);
+      expect(cell is FireSandMaterial, true);
     });
 
     test('Fire burns water to steam', () {
