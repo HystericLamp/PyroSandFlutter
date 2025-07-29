@@ -43,10 +43,8 @@ void main() {
     });
 
     test('Sand slides diagonally', () {
-      // Sand block we want to test (above)
       grid.setCell(2, 3, SandMaterial.sand());
 
-      // Sand below it (bottom)
       grid.setCell(2, 4, SandMaterial.sand());
 
       sim.update();
@@ -54,6 +52,18 @@ void main() {
       // Should move diagonally
       expect(grid.getCell(2, 3).type, MaterialType.empty);
       expect(grid.getCell(1, 4).type, MaterialType.sand);
+    });
+
+    test('Sand smothers water', () {
+      grid.setCell(2, 3, SandMaterial.sand());
+
+      grid.setCell(2, 4, SandMaterial.water());
+
+      sim.update();
+
+      // Water should be gone
+      expect(grid.getCell(2, 3).type, MaterialType.empty);
+      expect(grid.getCell(2, 4).type, MaterialType.sand);
     });
   });
 }

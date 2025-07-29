@@ -1,5 +1,6 @@
 import 'package:ptrosand/src/features/pyrosand/logic/fire_behavior.dart';
 import 'package:ptrosand/src/features/pyrosand/logic/grid.dart';
+import 'package:ptrosand/src/features/pyrosand/models/material_type.dart';
 import 'package:ptrosand/src/features/pyrosand/models/sand_material.dart';
 
 class MaterialUpdater {
@@ -8,11 +9,33 @@ class MaterialUpdater {
   MaterialUpdater(this._grid);
 
   /// 
-  /// Simulates and updates materials in a grid to fall. 
+  /// Simulates materials in a grid to fall. 
   /// Will also simulate a material to move to the side diagonally if something is below it.
   ///
   void updateMaterialFall(int x, int y) {
     if (_grid.canMoveTo(x, y+1)) {
+      _grid.moveCell(x, y, x, y+1);
+    } else if (_grid.canMoveTo(x-1, y+1)) {
+      _grid.moveCell(x, y, x-1, y+1);
+    } else if (_grid.canMoveTo(x+1, y+1)) {
+      _grid.moveCell(x, y, x+1, y+1);
+    }
+  }
+
+  ///
+  /// Handles falling movement for Sand
+  /// It 'smothers' the water below it causing it to disappear
+  ///
+  void updateSandFall(int x, int y) {
+    SandMaterial bellowCell;
+    try{
+      bellowCell = _grid.getCell(x, y+1);
+    } catch (e) {
+      bellowCell = SandMaterial.empty();
+    }
+    
+
+    if (_grid.canMoveTo(x, y+1) || bellowCell.type == MaterialType.water) {
       _grid.moveCell(x, y, x, y+1);
     } else if (_grid.canMoveTo(x-1, y+1)) {
       _grid.moveCell(x, y, x-1, y+1);

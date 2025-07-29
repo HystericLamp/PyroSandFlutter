@@ -31,6 +31,9 @@ class SandSimulation {
 
         switch (cell.type) {
           case MaterialType.sand:
+            _materialUpdater.updateSandFall(x, y);
+            updatedCells.add(key);
+            break;
           case MaterialType.water:
             _materialUpdater.updateMaterialFall(x, y);
             updatedCells.add(key);

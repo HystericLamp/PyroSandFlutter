@@ -45,10 +45,11 @@ class Grid {
   }
 
   SandMaterial getCell(int x, int y) {
-    if (x >= 0 && x < width && y >= 0 && y < height) {
+    if (isWithinBounds(x, y)) {
       return _cells[y][x];
     }
 
+    // Exception throwing
     if ((x < 0 || x >= width) && (y < 0 || y >= height)) {
       throw Exception('Requested coordinates (x, y) is not within bounds of the grid');
     } else if (x < 0 || x >= width) {

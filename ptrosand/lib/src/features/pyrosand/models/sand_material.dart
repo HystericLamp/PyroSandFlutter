@@ -42,7 +42,7 @@ class SandMaterial {
   factory SandMaterial.sand() {
     return const SandMaterial(
       type: MaterialType.sand,
-      expires: false,
+      expires: false
     );
   }
 

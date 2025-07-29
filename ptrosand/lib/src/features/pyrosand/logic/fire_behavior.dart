@@ -46,18 +46,16 @@ class FireBehavior {
     int newBurnTimer = neighbor.burnTimer - 1;
 
     if (newBurnTimer <= 0) {
-      // Fully burns and turns into fire
       grid.setCell(nx, ny, FireSandMaterial(lifespan: 8, burningWood: true));
     } else {
-      // Update the flammable material with decreased burnTimer
       grid.setCell(nx, ny, FlammableSandMaterial(
         type: neighbor.type,
         burnTimer: newBurnTimer,
       ));
 
-      // Optional visual: emit fire above
+      // emit fire above
       if (grid.isWithinBounds(nx, ny - 1) &&
-          grid.getCell(nx, ny - 1)?.type == MaterialType.empty) {
+          grid.getCell(nx, ny - 1).type == MaterialType.empty) {
         grid.setCell(nx, ny - 1, FireSandMaterial(lifespan: 2));
       }
     }
