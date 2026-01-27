@@ -60,6 +60,30 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
         return SandMaterial.empty();
     }
   }
+
+  void _showHowToPlay(BuildContext context) {
+    showDialog(
+      context: context, 
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("How to Play"),
+          content: const Text(
+            "- Click and Drag the mouse to place sand\n"
+            "- Use the menu in the bottom-right to switch material\n"
+            "- Some of the sand materials can interact with each \n"
+            "Ex: Place some wood and hover some running fire under it"
+          ),
+
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              child: const Text("Got it"),
+            )
+          ],
+        );
+      }
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -100,7 +124,18 @@ class _PyroSandViewState extends State<PyrosandView> with SingleTickerProviderSt
                 });
               }
             ),
-          )
+          ),
+
+          // Info Window
+          Positioned(
+            top: 16,
+            left: 16,
+            child: IconButton(
+              onPressed: () => _showHowToPlay(context),
+              icon: const Icon(Icons.info_outline),
+              color: Colors.black,
+            ),
+          ),
         ],
       )
       
